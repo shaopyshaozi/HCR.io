@@ -10,7 +10,7 @@ let generateCartSummary = () => {
     </div>
 
     <div class="total-price">
-      <strong>Price:</strong> $${(product.price).toFixed(2)}
+      <strong>Price:</strong> £${(product.price).toFixed(2)}
     </div>
 
     <div class="quantity-info">
@@ -153,7 +153,7 @@ const generateShop = () => {
         <h3>${name}</h3>
         <p>${desc}</p>
         <div class="price-quantity">
-          <h2>$ ${price.toFixed(2)}</h2>
+          <h2>£ ${price.toFixed(2)}</h2>
           <div class="buttons">
             <i onclick="decrement(${id})" class="bi bi-dash-lg"></i>
             <div id="${id}" class="quantity">${search.item}</div>
@@ -187,7 +187,7 @@ const generateCartItems = () => {
         <div class="title-price-x">
             <h4>${product.name}</h4>
         </div>
-        <h4 class="cart-item-price">$ ${product.price}</h4>
+        <h4 class="cart-item-price">£ ${product.price}</h4>
         <div class="buttons">
           
           <i onclick="decrement(${item.id})" class="bi bi-dash-lg"></i>
@@ -195,7 +195,7 @@ const generateCartItems = () => {
           <i onclick="increment(${item.id})" class="bi bi-plus-lg"></i>
           <i onclick="removeItem(${item.id})" class="bi bi-trash"></i>
         </div>
-        <h4>$ ${(item.item * product.price).toFixed(2)}</h4>
+        <h4>£ ${(item.item * product.price).toFixed(2)}</h4>
       </div>
     </div>`;
   }).join("") : `<h2>Cart is Empty</h2>`;
