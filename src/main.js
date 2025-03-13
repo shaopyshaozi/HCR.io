@@ -56,7 +56,6 @@ function initializeSocket() {
       if (data.success === 1) {
         console.log("✅ Payment successful. Redirecting...");
         clearInterval(countdownInterval); // Stop the countdown
-        clearCart(); // Clear the cart
         window.location.href = "success.html"; // Redirect to index
       }
     });
@@ -90,6 +89,40 @@ function handleCheckout() {
     alert("Your cart is empty! Please add items before checking out.");
   }
 }
+
+// Function to send the purchased item quantity to the server
+const sendPurchasedQuantity = async () => {
+  const cartData = localStorage.getItem("data");
+
+  let cartQuantity = 0;
+
+  if (cartData) {
+    try {
+      const parsedCart = JSON.parse(cartData); // Parse JSON string
+      if (Array.isArray(parsedCart)) {
+        // Find the item with id = 1
+        const product = parsedCart.find(item => item.id === 1);
+        if (product) {
+          cartQuantity = product.item; // Get quantity of the item with id = 1
+        }
+      }
+    } catch (error) {
+      console.error("Error parsing cart data:", error);
+    }
+  }
+
+  console.log("✅ Sending Purchased Quantity for id=1:", cartQuantity);
+
+  try {
+    const response = await fetch(`http://13.60.218.54:5001/confirm_purchase?quantity=${cartQuantity}`, {
+      method: "GET",
+    });
+    const result = await response.text();
+    console.log("Server response:", result);
+  } catch (error) {
+    console.error("Error sending purchase data:", error);
+  }
+};
 
 
 
@@ -173,6 +206,7 @@ const updateCart = () => {
   generateCartItems();
   updateTotal();
   localStorage.setItem("data", JSON.stringify(basket));
+  sendPurchasedQuantity();
 };
 
 const generateCartItems = () => {
